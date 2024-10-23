@@ -6,7 +6,7 @@ import { roleMiddleware } from '@/middlewares/roleMiddleware';
 import cloudinary from '@/config/cloudinary'; 
 import { Readable } from 'stream';
 
-export const config = {
+export const routeSegmentConfig = {
   api: {
     bodyParser: false,
   },
