@@ -164,7 +164,7 @@ import cloudinary from '@/config/cloudinary'; // Cloudinary SDK
 import { Readable } from 'stream';
 
 // Disable body parsing for file uploads
-export const config = {
+export const routeSegmentConfig = {
   api: {
     bodyParser: false,
   },
