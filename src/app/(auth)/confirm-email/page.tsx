@@ -14,7 +14,7 @@ export default function ConfirmEmailPage() {
   const router = useRouter();
 
   const handleLoginRedirect = () => {
-    router.push("/login"); // Redirect to login page
+    router.push("/login"); 
   };
 
   return (

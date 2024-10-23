@@ -1,21 +1,29 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import { authMiddleware } from '@/middlewares/authMiddleware';
-import { connectToDB } from '@/utils/db';
-import Booking from '@/models/Booking';
+import { NextResponse } from "next/server";
+import { authMiddleware } from "@/middlewares/authMiddleware";
+import { connectToDB } from "@/utils/db";
+import Booking from "@/models/Booking";
 
-export async function GET(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method === 'GET') {
-    try {
-      await connectToDB();
-      const customerId = req.user.id; 
+export async function GET(request: Request) {
+  try {
+    await connectToDB();
 
-      const bookings = await Booking.find({ customer: customerId }).populate('vehicle');
-
-      res.status(200).json(bookings);
-    } catch (error) {
-      res.status(500).json({ success: false, error: error.message });
+    const result = await authMiddleware(request);
+    if (result instanceof NextResponse) {
+      return result;
     }
-  } else {
-    res.status(405).json({ message: 'Method not allowed.' });
+
+    const user = result;
+    const customerId = user.id;
+
+    const bookings = await Booking.find({ customer: customerId }).populate(
+      "vehicle"
+    );
+
+    return NextResponse.json({ success: true, bookings }, { status: 200 });
+  } catch (error) {
+    return NextResponse.json(
+      { success: false, error: "Faild to finding bookings" },
+      { status: 500 }
+    );
   }
 }

@@ -19,31 +19,48 @@ import { useToast } from "@/hooks/use-toast";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
+interface Vehicle {
+  _id: string;
+  make: string;
+  model: string;
+  year: number;
+  pricePerDay: number;
+  availability: boolean;
+  imageUrl: string;
+}
+
 export default function VehiclesPage() {
-  const { vehicles, fetchVehicles, filterVehicles } = useVehicleStore();
+  const { vehicles, fetchVehicles } = useVehicleStore();
   const { toast } = useToast();
-  const [filteredVehicles, setFilteredVehicles] = useState(vehicles);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [sortOrder, setSortOrder] = useState("");
-  const [priceRange, setPriceRange] = useState([0, 1000]);
-  const [availability, setAvailability] = useState(false);
+  const [filteredVehicles, setFilteredVehicles] = useState<Vehicle[]>([]);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [sortOrder, setSortOrder] = useState<string>("");
+  const [maxPrice, setMaxPrice] = useState<number>(1000);
+  const [availability, setAvailability] = useState<boolean>(false);
 
   useEffect(() => {
-    fetchVehicles().catch(() =>
-      toast({ title: "Error", variant: "destructive", description: "Failed to fetch vehicles" })
-    );
+    fetchVehicles()
+      .catch(() =>
+        toast({
+          title: "Error",
+          variant: "destructive",
+          description: "Failed to fetch vehicles",
+        })
+      );
   }, [fetchVehicles, toast]);
 
   useEffect(() => {
-    // Filter vehicles based on search, price range, availability, etc.
-    const filtered = filterVehicles(searchTerm).filter(
-      (vehicle) =>
-        vehicle.pricePerDay >= priceRange[0] &&
-        vehicle.pricePerDay <= priceRange[1] &&
-        (!availability || vehicle.availability)
-    );
+    const filtered = vehicles
+      .filter((vehicle) =>
+        vehicle.make.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        vehicle.model.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+      .filter(
+        (vehicle) =>
+          vehicle.pricePerDay <= maxPrice &&
+          (!availability || vehicle.availability)
+      );
 
-    // Sort vehicles based on sort order
     if (sortOrder === "price-low-high") {
       filtered.sort((a, b) => a.pricePerDay - b.pricePerDay);
     } else if (sortOrder === "price-high-low") {
@@ -55,20 +72,16 @@ export default function VehiclesPage() {
     }
 
     setFilteredVehicles(filtered);
-  }, [searchTerm, priceRange, availability, sortOrder, filterVehicles]);
+  }, [vehicles, searchTerm, maxPrice, availability, sortOrder]);
 
   return (
     <>
       <Header />
       <div className="min-h-screen bg-gray-50 p-4">
         <div className="container mx-auto">
-          <h2 className="text-2xl font-semibold mb-6">
-            Find Your Perfect Vehicle
-          </h2>
+          <h2 className="text-2xl font-semibold mb-6">Find Your Perfect Vehicle</h2>
 
-          {/* Filters Section */}
           <section className="mb-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-            {/* Search */}
             <div className="col-span-1">
               <Input
                 type="text"
@@ -79,26 +92,24 @@ export default function VehiclesPage() {
               />
             </div>
 
-            {/* Price Range */}
             <div className="col-span-1">
               <label className="block text-sm font-medium text-gray-700">
-                Price Range (per day)
+                Max Price (per day)
               </label>
               <Slider
                 min={0}
                 max={1000}
-                value={priceRange}
-                onChange={(value) => setPriceRange(value)}
+                value={[maxPrice]} 
+                onValueChange={(value) => setMaxPrice(value[0])} 
                 step={50}
                 className="mt-2"
               />
               <div className="flex justify-between text-xs">
-                <span>₵{priceRange[0]}</span>
-                <span>₵{priceRange[1]}</span>
+                <span>₵0</span>
+                <span>₵{maxPrice}</span>
               </div>
             </div>
 
-            {/* Availability */}
             <div className="col-span-1 flex items-center space-x-2">
               <input
                 type="checkbox"
@@ -107,27 +118,19 @@ export default function VehiclesPage() {
                 id="availability"
                 className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
               />
-              <label
-                htmlFor="availability"
-                className="text-sm font-medium text-gray-700"
-              >
+              <label htmlFor="availability" className="text-sm font-medium text-gray-700">
                 Available Now
               </label>
             </div>
 
-            {/* Sort */}
             <div className="col-span-1">
               <Select
-                onValueChange={(value) => setSortOrder(value)}
+                onValueChange={(value: string) => setSortOrder(value)}
                 value={sortOrder}
               >
                 <SelectContent>
-                  <SelectItem value="price-low-high">
-                    Price: Low to High
-                  </SelectItem>
-                  <SelectItem value="price-high-low">
-                    Price: High to Low
-                  </SelectItem>
+                  <SelectItem value="price-low-high">Price: Low to High</SelectItem>
+                  <SelectItem value="price-high-low">Price: High to Low</SelectItem>
                   <SelectItem value="year-newest">Year: Newest</SelectItem>
                   <SelectItem value="year-oldest">Year: Oldest</SelectItem>
                 </SelectContent>
@@ -135,10 +138,8 @@ export default function VehiclesPage() {
             </div>
           </section>
 
-          {/* Vehicle Listings */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {vehicles.map((vehicle) => (
-              // {filteredVehicles.map((vehicle) => (
+            {filteredVehicles.map((vehicle) => (
               <Card key={vehicle._id} className="overflow-hidden shadow-lg">
                 <CardHeader>
                   <img
@@ -171,3 +172,4 @@ export default function VehiclesPage() {
     </>
   );
 }
+

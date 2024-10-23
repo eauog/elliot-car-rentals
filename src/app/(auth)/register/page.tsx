@@ -25,7 +25,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-// Zod schema for registration form validation
 const registerSchema = z
   .object({
     name: z.string().min(5, { message: "Your name is required is required" }),
@@ -45,7 +44,6 @@ const registerSchema = z
     path: ["confirmPassword"],
   });
 
-// Define form inputs type
 type RegisterFormInputs = z.infer<typeof registerSchema>;
 
 export default function RegisterPage() {
@@ -54,7 +52,6 @@ export default function RegisterPage() {
   const { toast } = useToast();
   const role = "customer";
 
-  // Initialize React Hook Form with Zod resolver
   const form = useForm<RegisterFormInputs>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
@@ -65,14 +62,17 @@ export default function RegisterPage() {
     },
   });
 
-  // Form submission handler
   const onSubmit = async (data: RegisterFormInputs) => {
     try {
       await registerUser(data.name, data.email, data.password, role);
       toast({ title: "Success", description: "Account created successfully!" });
-      router.push("/"); // Redirect after successful registration
+      router.push("/");
     } catch (error) {
-      toast({ title: "Error", variant: "destructive", description: "Registration failed" });
+      toast({
+        title: "Error",
+        variant: "destructive",
+        description: "Registration failed",
+      });
     }
   };
 
@@ -133,7 +133,6 @@ export default function RegisterPage() {
                   )}
                 />
 
-                {/* Password Field */}
                 <FormField
                   control={form.control}
                   name="password"
@@ -154,7 +153,6 @@ export default function RegisterPage() {
                   )}
                 />
 
-                {/* Confirm Password Field */}
                 <FormField
                   control={form.control}
                   name="confirmPassword"

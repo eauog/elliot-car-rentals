@@ -20,10 +20,10 @@ export async function POST(request: Request) {
     // Hashing password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Generating email confirmation token
+    // email confirmation token
     const emailConfirmationToken = crypto.randomBytes(20).toString('hex');
 
-    // Creating a new user
+    // new user
     const newUser = new User({
       name,
       email,
@@ -34,7 +34,7 @@ export async function POST(request: Request) {
 
     await newUser.save();
 
-    // Sending confirmation email
+    // confirmation email
     const confirmUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/auth/confirm-email?token=${emailConfirmationToken}`;
     await sendEmail({
       to: email,
