@@ -1,9 +1,9 @@
 import request from 'supertest';
 // import app from '@/app';
-import registerHandler from '@/app/api/auth/register';
-import loginHandler from '@/app/api/auth/login';
-import addvehicleHandler from '@/app/api/vehicles/add';
-import addbookingHandler from '@/app/api/bookings/add';
+import registerHandler from '@/app/api/auth/register/route';
+import loginHandler from '@/app/api/auth/login/route';
+import addvehicleHandler from '@/app/api/vehicles/add/route';
+import addbookingHandler from '@/app/api/bookings/add/route';
 import { connectToDB } from '@/utils/db';
 import Payment from '@/models/Payment';
 import User from '@/models/User';

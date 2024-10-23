@@ -8,7 +8,7 @@ interface IUser extends Document {
   isEmailConfirmed: boolean;
   emailConfirmationToken?: string;
   passwordResetToken?: string;
-  passwordResetExpires?: Date;
+  passwordResetExpires?: number;
 }
 
 const UserSchema: Schema<IUser> = new Schema({

@@ -76,3 +76,11 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+
+@font-face {
+  font-family: 'RoabladeDemo';
+  src: url('/public/fonts/roablademoversionregular-yyjve.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}

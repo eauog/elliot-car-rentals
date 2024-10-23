@@ -1,48 +1,47 @@
-'use client'
+import type { Metadata } from "next";
+import localFont from "next/font/local";
+import { Toaster } from "@/components/ui/toaster";
+import "./globals.css";
+import AuthProvider from "@/components/AuthProvider";
 
-import { ReactNode } from 'react';
-import { useAuthStore } from '@/store/authStore';
-import { Button } from '@/components/ui/button';
-import { useRouter } from 'next/navigation';
+const geistSans = localFont({
+  src: "./fonts/GeistVF.woff",
+  variable: "--font-geist-sans",
+  weight: "100 900",
+});
+const geistMono = localFont({
+  src: "./fonts/GeistMonoVF.woff",
+  variable: "--font-geist-mono",
+  weight: "100 900",
+});
 
-export default function Layout({ children }: { children: ReactNode }) {
-  const { user, logout } = useAuthStore();
-  const router = useRouter();
+export const metadata: Metadata = {
+  title: "Elliot Car Rentals",
+  description: "Explore and book vehicles for your next trip.",
+  robots: "index, follow",
+  openGraph: {
+    title: "Elliot Car Rentals",
+    description: "Find the perfect car for your next trip.",
+    url: "https://elliotcarrentals.com",
+    siteName: "Elliot Car Rentals",
+  },
+};
 
-  const handleLogout = () => {
-    logout();
-    router.push('/auth/login'); 
-  };
-
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
-    <>
-      {/* Navigation */}
-      <nav className="bg-gray-800 p-4">
-        <div className="container mx-auto flex justify-between items-center">
-          <h1 className="text-white text-lg font-bold">Car Rental App</h1>
-          <div>
-            {user ? (
-              <>
-                <span className="text-white mr-4">Hello, {user.name}</span>
-                <Button onClick={handleLogout} variant="secondary">
-                  Log out
-                </Button>
-              </>
-            ) : (
-              <Button onClick={() => router.push('/auth/login')} variant="primary">
-                Log in
-              </Button>
-            )}
-          </div>
-        </div>
-      </nav>
-
-      <main>{children}</main>
-
-      {/* Footer */}
-      <footer className="bg-gray-800 text-white p-4 text-center">
-        © 2024 Car Rental App
-      </footer>
-    </>
+    <html lang="en">
+      <body
+        className={`flex min-h-screen ${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
+        <AuthProvider>
+          <main className="flex-1 mx-auto">{children}</main>
+        </AuthProvider>
+        <Toaster />
+      </body>
+    </html>
   );
 }

@@ -1,17 +1,22 @@
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextResponse } from 'next/server';
 import { verifyToken } from '@/utils/auth';
 
-export function authMiddleware(req: NextApiRequest, res: NextApiResponse, next: Function) {
-  const token = req.headers.authorization?.split(' ')[1];
+export async function authMiddleware(request: Request) {
+  const authHeader = request.headers.get('authorization');
+  const token = authHeader?.split(' ')[1];
+
   if (!token) {
-    return res.status(401).json({ message: 'Authentication required' });
+    return NextResponse.json({ message: 'Authentication required' }, { status: 401 });
   }
 
-  const decoded = verifyToken(token);
-  if (!decoded) {
-    return res.status(401).json({ message: 'Invalid token' });
+  try {
+    const decoded = verifyToken(token);
+    if (!decoded) {
+      return NextResponse.json({ message: 'Invalid token' }, { status: 401 });
+    }
+    const { id, role } = decoded ;
+    return { id, role };
+  } catch (error) {
+    return NextResponse.json({ message: 'Invalid token or authentication error' }, { status: 401 });
   }
-
-  req.user = decoded;
-  next();
 }

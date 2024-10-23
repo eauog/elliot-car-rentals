@@ -2,8 +2,8 @@ import request from 'supertest';
 // import app from '@/app';  
 import { connectToDB } from '@/utils/db';
 import User from '@/models/User';
-import registerHandler from '@/app/api/auth/register';
-import loginHandler from '@/app/api/auth/login';
+import registerHandler from '@/app/api/auth/register/route';
+import loginHandler from '@/app/api/auth/login/route';
 
 
 beforeAll(async () => {
