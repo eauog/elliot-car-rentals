@@ -19,7 +19,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-// Zod schema for login form validation
 const loginSchema = z.object({
   email: z
     .string()
@@ -28,7 +27,6 @@ const loginSchema = z.object({
   password: z.string().min(1, { message: "Password is required" }),
 });
 
-// Define form inputs type
 type LoginFormInputs = z.infer<typeof loginSchema>;
 
 export default function LoginPage() {
@@ -36,7 +34,6 @@ export default function LoginPage() {
   const router = useRouter();
   const { toast } = useToast();
 
-  // Initialize React Hook Form with Zod resolver
   const form = useForm<LoginFormInputs>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -45,12 +42,11 @@ export default function LoginPage() {
     },
   });
 
-  // Form submission handler
   const onSubmit = async (data: LoginFormInputs) => {
     try {
       await login(data.email, data.password);
       toast({ title: "Success", description: "Logged in successfully!" });
-      router.push("/"); // Redirect after successful login
+      router.push("/"); 
     } catch (error) {
       toast({ title: "Error", variant: "destructive", description: "Invalid credentials" });
     }
@@ -58,7 +54,6 @@ export default function LoginPage() {
 
   return (
     <div className="w-full lg:grid lg:min-h-[600px] lg:grid-cols-2 xl:min-h-[800px]">
-
       <div className="flex items-center justify-center py-12">
         <div className="mx-auto grid w-[350px] gap-6">
           <div className="grid gap-2 text-center">
@@ -73,7 +68,6 @@ export default function LoginPage() {
                 onSubmit={form.handleSubmit(onSubmit)}
                 className="space-y-8"
               >
-                {/* Email Field */}
                 <FormField
                   control={form.control}
                   name="email"
@@ -94,7 +88,6 @@ export default function LoginPage() {
                   )}
                 />
 
-                {/* Password Field */}
                 <FormField
                   control={form.control}
                   name="password"
@@ -123,7 +116,6 @@ export default function LoginPage() {
                   )}
                 />
 
-                {/* Submit Button */}
                 <Button
                   type="submit"
                   className="w-full"
@@ -147,7 +139,7 @@ export default function LoginPage() {
           src="/car-banner-protrait.jpg"
           alt="Image"
           width="1920"
-          height="1080"
+          height="900"
           className="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
         />
       </div>

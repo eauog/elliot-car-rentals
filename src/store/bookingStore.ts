@@ -19,6 +19,7 @@ interface BookingStore {
 
 export const useBookingStore = create<BookingStore>((set) => ({
   bookings: [],
+  userBooking: [],
 
   // Fetch all bookings from the API
   fetchBookings: async () => {
@@ -30,6 +31,16 @@ export const useBookingStore = create<BookingStore>((set) => ({
     }
   },
 
+  fetchUserBookings: async () => {
+    try {
+      const response = await axiosInstance.get('/dashboard/bookings/mine');
+      set({ userBooking: response.data });
+    } catch (error) {
+      console.error('Error fetching bookings:', error);
+    }
+  },
+
+  
   // Update booking status (approve, cancel, etc.)
   updateBookingStatus: async (id, status) => {
     try {
