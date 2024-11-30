@@ -48,6 +48,7 @@ export default function LoginPage() {
       toast({ title: "Success", description: "Logged in successfully!" });
       router.push("/"); 
     } catch (error) {
+      console.error(error);
       toast({ title: "Error", variant: "destructive", description: "Invalid credentials" });
     }
   };

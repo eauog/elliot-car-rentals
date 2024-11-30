@@ -17,6 +17,7 @@ beforeAll(async () => {
     password: 'adminpassword',
     role: 'admin',  
   });
+  adminRes;
   const loginRes = await request().post('/api/auth/login').send({
     email: 'admin@example.com',
     password: 'adminpassword',

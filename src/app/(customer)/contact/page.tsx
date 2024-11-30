@@ -12,7 +12,7 @@ export default function ContactUs() {
   const { toast } = useToast();
   const [form, setForm] = useState({ name: "", email: "", message: "" });
 
-  const handleInputChange = (e: { target: { name: any; value: any } }) => {
+  const handleInputChange = (e: { target: { name: string; value: any } }) => {
     setForm({
       ...form,
       [e.target.name]: e.target.value,

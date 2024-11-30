@@ -49,6 +49,7 @@ export default function ForgotPasswordPage() {
       });
       toast({ title: "Success", description: "Password reset email sent!" });
     } catch (error) {
+      console.error(error);
       toast({
         variant: "destructive",
         title: "Error",

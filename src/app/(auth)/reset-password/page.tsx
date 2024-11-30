@@ -67,6 +67,7 @@ export default function ResetPasswordPage() {
       toast({ title: "Success", description: "Password reset successfully!" });
       router.push("/login");
     } catch (error) {
+      console.error(error);
       toast({
         title: "Error",
         variant: "destructive",
