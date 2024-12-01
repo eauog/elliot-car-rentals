@@ -51,16 +51,16 @@ import Booking from '@/models/Booking';
 
 export async function PUT(
   request: Request,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } }
 ) {
   try {
     await connectToDB();
-    const { id } = params;
+    const { id } = context.params;  // Extract params here
     const { status } = await request.json();
 
     // Validate status
     if (!["pending", "confirmed", "cancelled"].includes(status)) {
-      return NextResponse.json({ message: "Invalid status. Allowed values are 'pending', 'confirmed', or 'cancelled'." }, { status: 400 });
+      return NextResponse.json({ message: "Invalid status" }, { status: 400 });
     }
 
     const booking = await Booking.findById(id);
@@ -79,10 +79,13 @@ export async function PUT(
   }
 }
 
-export async function DELETE(request: Request, { params }: { params: { id: string } }) {
+export async function DELETE(
+  request: Request,
+  context: { params: { id: string } }
+) {
   try {
     await connectToDB();
-    const { id } = params;
+    const { id } = context.params;  // Extract params here
 
     const booking = await Booking.findByIdAndDelete(id);
     if (!booking) {
