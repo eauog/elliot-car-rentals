@@ -5,7 +5,7 @@ interface DecodedToken {
   id: string;
   role: string;
 }
-export const signToken = (user: any) => {
+export const signToken = ({user}: {user: any}) => {
   return jwt.sign({ id: user._id, role: user.role }, JWT_SECRET, {
     expiresIn: '1d',
   });
