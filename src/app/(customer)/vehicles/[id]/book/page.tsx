@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useVehicleStore } from "@/store/vehicleStore";
-import { useBookingStore } from "@/store/bookingStore";
+// import { useBookingStore } from "@/store/bookingStore";
 import { useToast } from "@/hooks/use-toast";
 import { PaystackButton } from "react-paystack";
 import DatePicker from "react-datepicker";
@@ -24,7 +24,7 @@ export default function BookingFlow() {
   const { getVehicleById } = useVehicleStore();
   // const { addBooking } = useBookingStore();
   const { toast } = useToast();
-  const userid = user?.id;
+  // const userid = user?.id;
 
   const [step, setStep] = useState(1);
   const [startDate, setStartDate] = useState<Date | null>(null);
@@ -56,7 +56,7 @@ export default function BookingFlow() {
 
   const handlePrevious = () => setStep(step - 1);
 
-  const onPaymentSuccess = async (reference: any) => {
+  const onPaymentSuccess = async (reference: string) => {
     try {
       const bookingResponse = await axiosInstance.post("/bookings/add", {
         vehicleId,
@@ -91,7 +91,7 @@ export default function BookingFlow() {
     publicKey: process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY as string,
     reference: `PAY_${Date.now()}`,
     currency: "GHS",
-    onSuccess: (reference: any) => {
+    onSuccess: (reference: string) => {
       onPaymentSuccess(reference);
     },
     onClose: () => {
@@ -160,7 +160,7 @@ export default function BookingFlow() {
               <h2 className="text-2xl font-bold mb-4">Review Your Booking</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <img
+                  <Image
                     src={vehicle.imageUrl}
                     alt={`${vehicle.make} ${vehicle.model}`}
                     width={500}

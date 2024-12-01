@@ -235,7 +235,7 @@ export default function AddVehicle() {
     }
 
     try {
-      const response = await axiosInstance.post("/vehicles/add", form, {
+      await axiosInstance.post("/vehicles/add", form, {
         headers: {
           // Let Axios automatically handle Content-Type
           "Content-Type": "multipart/form-data",
@@ -244,7 +244,7 @@ export default function AddVehicle() {
       setLoading(false)
       toast({ title: "Success", description: "Vehicle added successfully!" });
       router.push("/dashboard/vehicles");
-    } catch (error) {
+    } catch (error: any) {
       const errorMessage =
         error.response?.data?.message || (error as Error).message || "An error occurred";
       toast({ title: "Error", variant: "destructive", description: errorMessage });

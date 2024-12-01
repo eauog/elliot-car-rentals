@@ -3,7 +3,7 @@
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import React,{ useState } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useToast } from "@/hooks/use-toast";
@@ -12,14 +12,15 @@ export default function ContactUs() {
   const { toast } = useToast();
   const [form, setForm] = useState({ name: "", email: "", message: "" });
 
-  const handleInputChange = (e: { target: { name: any; value: any } }) => {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value,
-    });
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setForm((prevForm) => ({
+      ...prevForm,
+      [name]: value,
+    }));
   };
 
-  const handleSubmit = (e: { preventDefault: () => void }) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!form.name || !form.email || !form.message) {
       toast({

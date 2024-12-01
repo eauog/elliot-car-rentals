@@ -67,11 +67,11 @@ export default function RegisterPage() {
       await registerUser(data.name, data.email, data.password, role);
       toast({ title: "Success", description: "Account created successfully!" });
       router.push("/");
-    } catch (error) {
+    } catch (error: any) {
       toast({
         title: "Error",
         variant: "destructive",
-        description: "Registration failed",
+        description: error.message,
       });
     }
   };

@@ -20,7 +20,7 @@ export async function POST(request: Request) {
     user.passwordResetExpires = Date.now() + 3600000; // 1 hour expiration
     await user.save();
 
-    const resetUrl = `${process.env.BASE_URL}/auth/reset-password?token=${resetToken}`;
+    const resetUrl = `${process.env.BASE_URL}/(auth)/reset-password?token=${resetToken}`;
     await sendEmail({
       to: email,
       subject: 'Password Reset',

@@ -12,7 +12,7 @@ export default function UsersPage() {
   const { users, fetchUsers, deleteUser } = useUserStore();
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
-  const router = useRouter();
+  // const router = useRouter();
 
   useEffect(() => {
     setLoading(true);
@@ -24,19 +24,19 @@ export default function UsersPage() {
       try {
         await deleteUser(id);
         toast({ title: "Success", description: "User deleted successfully!" });
-      } catch (error) {
+      } catch (error: any) {
         toast({
           title: "Error",
           variant: "destructive",
-          description: "Failed to delete user",
+          description: error.message,
         });
       }
     }
   };
 
-  const handleEdit = (id: string) => {
-    router.push(`/dashboard/users/${id}/edit`);
-  };
+  // const handleEdit = (id: string) => {
+  //   router.push(`/dashboard/users/${id}/edit`);
+  // };
 
   return (
     <>

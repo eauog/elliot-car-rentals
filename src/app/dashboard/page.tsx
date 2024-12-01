@@ -8,7 +8,7 @@ import { useBookingStore } from '@/store/bookingStore';
 import { usePaymentStore } from '@/store/paymentStore';
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
 import { ChartContainer, ChartTooltip, ChartTooltipContent, ChartLegend, ChartLegendContent } from "@/components/ui/chart";
-import { Button, buttonVariants } from '@/components/ui/button';
+import { buttonVariants } from '@/components/ui/button';
 import Link from 'next/link';
 
 export default function DashboardPage() {
@@ -26,7 +26,7 @@ export default function DashboardPage() {
     );
   }, [fetchUsers, fetchVehicles, fetchBookings, fetchPayments]);
 
-  const chartData = bookings.map((booking, index) => ({
+  const chartData = bookings.map((booking) => ({
     month: new Date(booking.startDate).toLocaleDateString('en-US', { month: 'short' }),
     bookings: bookings.length,
     payments: payments.reduce((sum, payment) => sum + payment.amount, 0),

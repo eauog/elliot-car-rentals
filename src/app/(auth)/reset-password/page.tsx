@@ -59,19 +59,18 @@ export default function ResetPasswordPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ token, newPassword: data.password }),
       });
-
+      const dat = await response.json();
       if (!response.ok) {
-        throw new Error("Failed to reset password");
+        throw new Error(dat.message || "An unknown error occurred");
       }
 
       toast({ title: "Success", description: "Password reset successfully!" });
       router.push("/login");
-    } catch (error) {
+    } catch (error: any) {
       toast({
         title: "Error",
         variant: "destructive",
-        description:
-          "There was an error in reseting password please try gain later",
+        description: error.message,
       });
     }
   };

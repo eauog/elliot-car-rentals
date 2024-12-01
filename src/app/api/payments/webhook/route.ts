@@ -4,7 +4,7 @@ import Payment from '@/models/Payment';
 
 export async function POST(request: Request) {
   const body = await request.json();
-  const signature = request.headers.get('x-paystack-signature'); 
+  // const signature = request.headers.get('x-paystack-signature'); 
   const { event, data } = body;
 
   await connectToDB();

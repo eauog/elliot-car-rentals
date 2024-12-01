@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { useVehicleStore } from "@/store/vehicleStore";
-import { Input } from "@/components/ui/input";
+// import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -15,7 +15,7 @@ import { useToast } from "@/hooks/use-toast";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Link from "next/link";
-import { buttonVariants } from "@/components/ui/button";
+// import { buttonVariants } from "@/components/ui/button";
 import { CheckCircle, DollarSign, Headphones } from "lucide-react";
 import {
   Accordion,
@@ -172,22 +172,22 @@ export default function Homepage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-12 container mx-auto">
             <div className="bg-white p-8 shadow-lg rounded-xl hover:shadow-xl transition-shadow">
               <p className="text-lg text-gray-700">
-                "Amazing service! The car was in great condition and the process
-                was seamless."
+                &quot;Amazing service! The car was in great condition and the process
+                was seamless.&quot;
               </p>
               <p className="mt-6 font-bold text-blue-600">- John Doe</p>
             </div>
             <div className="bg-white p-8 shadow-lg rounded-xl hover:shadow-xl transition-shadow">
               <p className="text-lg text-gray-700">
-                "Affordable and easy to book. I had a great experience and will
-                definitely rent again."
+                &quot;Affordable and easy to book. I had a great experience and will
+                definitely rent again.&quot;
               </p>
               <p className="mt-6 font-bold text-blue-600">- Jane Smith</p>
             </div>
             <div className="bg-white p-8 shadow-lg rounded-xl hover:shadow-xl transition-shadow">
               <p className="text-lg text-gray-700">
-                "Customer support was super helpful in answering all my
-                questions. Highly recommend!"
+                &quot;Customer support was super helpful in answering all my
+                questions. Highly recommend!&quot;
               </p>
               <p className="mt-6 font-bold text-blue-600">- Michael Brown</p>
             </div>

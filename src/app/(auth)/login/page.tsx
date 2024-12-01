@@ -1,6 +1,6 @@
 "use client";
 
-import { z } from "zod";
+import { string, z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
@@ -47,8 +47,8 @@ export default function LoginPage() {
       await login(data.email, data.password);
       toast({ title: "Success", description: "Logged in successfully!" });
       router.push("/"); 
-    } catch (error) {
-      toast({ title: "Error", variant: "destructive", description: "Invalid credentials" });
+    } catch (error: any) {
+      toast({ title: "Error", variant: "destructive", description: error.message });
     }
   };
 

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { useVehicleStore } from "@/store/vehicleStore";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import Link from "next/link";
@@ -11,7 +11,7 @@ import { useToast } from "@/hooks/use-toast";
 import ImageModal from "@/components/ImageModal";
 
 export default function AdminVehicleList() {
-  const router = useRouter();
+  // const router = useRouter();
   const { vehicles, fetchVehicles, deleteVehicle } = useVehicleStore();
   const [loading, setLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
@@ -36,7 +36,8 @@ export default function AdminVehicleList() {
           title: "Success",
           description: "Vehicles deleted successfully",
         });
-      } catch (error) {
+      } catch (error: any) {
+        console.error(error)
         toast({
           title: "Error",
           variant: "destructive",

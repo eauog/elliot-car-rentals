@@ -22,7 +22,7 @@ export async function GET(request: Request) {
     return NextResponse.json({ success: true, bookings }, { status: 200 });
   } catch (error) {
     return NextResponse.json(
-      { success: false, error: "Faild to finding bookings" },
+      { success: false, error: `Faild to finding bookings : ${error}` },
       { status: 500 }
     );
   }

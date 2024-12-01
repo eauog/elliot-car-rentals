@@ -11,13 +11,13 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectItem, SelectContent } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
 import { useToast } from "@/hooks/use-toast";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import Image from "next/image";
 
 interface Vehicle {
   _id: string;
@@ -142,9 +142,11 @@ export default function VehiclesPage() {
             {filteredVehicles.map((vehicle) => (
               <Card key={vehicle._id} className="overflow-hidden shadow-lg">
                 <CardHeader>
-                  <img
+                  <Image
                     src={vehicle.imageUrl}
                     alt={`${vehicle.make} ${vehicle.model}`}
+                    width={500}
+                    height={600}
                     className="w-full h-48 object-cover"
                   />
                 </CardHeader>

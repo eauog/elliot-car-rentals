@@ -106,10 +106,10 @@ export const useAuthStore = create<AuthState>((set) => ({
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password }),
     });
-    if (!response.ok) {
-      throw new Error('Login failed');
-    }
     const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.message || 'An unknown error occurred');
+    }
     localStorage.setItem('token', data.token);
     localStorage.setItem('user', JSON.stringify(data.user));
     set({
@@ -125,10 +125,10 @@ export const useAuthStore = create<AuthState>((set) => ({
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name, email, password, role }),
     });
-    if (!response.ok) {
-      throw new Error('Registration failed');
-    }
     const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.message || 'An unknown error occurred');
+    }
     localStorage.setItem('token', data.token);
     localStorage.setItem('user', JSON.stringify(data.user));
     set({

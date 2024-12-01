@@ -13,7 +13,7 @@ import {
   Search,
   Car,
 } from "lucide-react";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useAuthStore } from "@/store/authStore";

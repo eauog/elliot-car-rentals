@@ -43,16 +43,21 @@ export default function ForgotPasswordPage() {
 
   const onSubmit = async (data: ResetFormInputs) => {
     try {
-      await fetch("/api/auth/forgot-password", {
+      const response = await fetch("/api/auth/forgot-password", {
         method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: data.email }),
       });
+      const dat = await response.json();
+      if (!response.ok) {
+        throw new Error(dat.message || "An unknown error occurred");
+      }
       toast({ title: "Success", description: "Password reset email sent!" });
-    } catch (error) {
+    } catch (error: any) {
       toast({
         variant: "destructive",
         title: "Error",
-        description: "Failed to send password reset email",
+        description: error.message,
       });
     }
   };

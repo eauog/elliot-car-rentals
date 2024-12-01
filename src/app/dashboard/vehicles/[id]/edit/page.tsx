@@ -443,7 +443,8 @@ export default function EditVehicle() { // Ensure the default export is a React 
 
       toast({ title: 'Success', description: 'Vehicle updated successfully!' });
       router.push('/dashboard/vehicles');
-    } catch (error) {
+    } catch (error: any) {
+      console.error(error)
       toast({ title: 'Error', variant: "destructive", description: 'Failed to update vehicle' });
     }
   };

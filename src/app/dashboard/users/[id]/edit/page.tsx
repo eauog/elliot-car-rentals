@@ -43,11 +43,11 @@ export default function EditUserPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await updateUser(userId, formData);
+      await updateUser(userId as string, formData);
       toast({ title: 'Success', description: 'User updated successfully!' });
       router.push('/dashboard/users');
-    } catch (error) {
-      toast({ title: 'Error', variant: "destructive", description: 'Failed to update user' });
+    } catch (error: any) {
+      toast({ title: 'Error', variant: "destructive", description: error.message });
     }
   };
 

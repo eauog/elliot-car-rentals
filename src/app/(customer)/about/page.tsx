@@ -1,6 +1,7 @@
 "use client";
 
 import { Users, Globe, Award } from "lucide-react";
+import Image from "next/image";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
@@ -59,9 +60,11 @@ export default function AboutPage() {
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-12">
               <div className="p-8 bg-gray-100 shadow-lg rounded-xl">
-                <img
+                <Image
                   src="/me.jpeg"
                   alt="Team Member 1"
+                  width={100}
+                  height={100}
                   className="w-32 h-32 mx-auto rounded-full mb-4 object-cover"
                 />
                 <h3 className="text-2xl font-bold text-gray-700 mb-2">

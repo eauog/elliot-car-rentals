@@ -35,7 +35,7 @@ export async function POST(request: Request) {
     await newUser.save();
 
     // confirmation email
-    const confirmUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/auth/confirm-email?token=${emailConfirmationToken}`;
+    const confirmUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/(auth)/confirm-email?token=${emailConfirmationToken}`;
     await sendEmail({
       to: email,
       subject: 'Email Confirmation',

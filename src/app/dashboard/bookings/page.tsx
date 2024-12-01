@@ -20,8 +20,8 @@ export default function BookingsPage() {
     try {
       await updateBookingStatus(id, status);
       toast({ title: 'Success', description: `Booking ${status} successfully!` });
-    } catch (error) {
-      toast({ title: 'Error', variant: "destructive", description: 'Failed to update booking status' });
+    } catch (error: any) {
+      toast({ title: 'Error', variant: "destructive", description: error.message });
     }
   };
 
@@ -30,8 +30,8 @@ export default function BookingsPage() {
       try {
         await deleteBooking(id);
         toast({ title: 'Success', description: 'Booking deleted successfully!' });
-      } catch (error) {
-        toast({ title: 'Error', variant: "destructive", description: 'Failed to delete booking' });
+      } catch (error: any) {
+        toast({ title: 'Error', variant: "destructive", description: error.message });
       }
     }
   };
