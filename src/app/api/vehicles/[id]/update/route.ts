@@ -278,6 +278,116 @@
 // }
 
 
+// import { NextResponse } from 'next/server';
+// import { connectToDB } from '@/utils/db';
+// import Vehicle from '@/models/Vehicle';
+// import { authMiddleware } from '@/middlewares/authMiddleware';
+// import { roleMiddleware } from '@/middlewares/roleMiddleware';
+// import cloudinary from '@/config/cloudinary';
+// import { Readable } from 'stream';
+
+// // Disable body parsing for file uploads
+// export const routeSegmentConfig = {
+//   api: {
+//     bodyParser: false,
+//   },
+// };
+
+// // Function to upload file to Cloudinary
+// async function uploadToCloudinary(stream: Readable): Promise<string> {
+//   return new Promise((resolve, reject) => {
+//     const uploadStream = cloudinary.uploader.upload_stream(
+//       { folder: 'car_rental_vehicles', allowed_formats: ['jpg', 'png'] },
+//       (error, result) => {
+//         if (error) return reject(error);
+//         resolve(result?.secure_url || '');
+//       }
+//     );
+//     stream.pipe(uploadStream);
+//   });
+// }
+
+// // Function to parse the form data
+// async function parseFormData(request: Request): Promise<{ fields: Record<string, any>; fileStream: Readable | null }> {
+//   const formData = await request.formData();
+
+//   // Extract fields from the form-data
+//   const fields: Record<string, any> = {
+//     make: formData.get('make') as string | null,
+//     model: formData.get('model') as string | null,
+//     year: formData.get('year') as string | null,
+//     pricePerDay: formData.get('pricePerDay') as string | null,
+//     availability: formData.get('availability') === 'true',
+//   };
+
+//   // Extract the file (image) from the form-data
+//   const file = formData.get('image') as File | null;
+//   const fileStream = file ? Readable.from(file.stream() as unknown as NodeJS.ReadableStream) : null;
+
+//   return { fields, fileStream };
+// }
+
+// // PUT request handler for updating vehicle details
+// export async function PUT(request: Request) {
+//   try {
+//     await connectToDB();
+
+//     // Authenticate and authorize the user
+//     const user = await authMiddleware(request);
+//     if (user instanceof NextResponse) return user;
+
+//     const roleCheck = roleMiddleware(user, ['admin', 'manager']);
+//     if (roleCheck instanceof NextResponse) return roleCheck;
+
+//     // Get the vehicle ID from the query string
+//     const { searchParams } = new URL(request.url);
+//     const id = searchParams.get('id');
+
+//     if (!id) {
+//       return NextResponse.json({ message: 'Vehicle ID is required' }, { status: 400 });
+//     }
+
+//     // Find the vehicle by ID
+//     const vehicle = await Vehicle.findById(id);
+//     if (!vehicle) {
+//       return NextResponse.json({ message: 'Vehicle not found' }, { status: 404 });
+//     }
+
+//     // Parse form data (fields + file)
+//     const { fields, fileStream } = await parseFormData(request);
+
+//     const { make, model, year, pricePerDay, availability } = fields;
+
+//     // Optionally upload a new image if one is provided
+//     if (fileStream) {
+//       try {
+//         const imageUrl = await uploadToCloudinary(fileStream);
+//         if (imageUrl) {
+//           vehicle.imageUrl = imageUrl;
+//         }
+//       } catch (error) {
+//         console.error('Error uploading image:', error);
+//         return NextResponse.json({ message: 'Failed to upload image' }, { status: 500 });
+//       }
+//     }
+
+//     // Update other vehicle details
+//     vehicle.make = make || vehicle.make;
+//     vehicle.model = model || vehicle.model;
+//     vehicle.year = year || vehicle.year;
+//     vehicle.pricePerDay = parseFloat(pricePerDay) || vehicle.pricePerDay;
+//     vehicle.availability = availability !== undefined ? availability : vehicle.availability;
+
+//     await vehicle.save();
+
+//     return NextResponse.json({ success: true, vehicle }, { status: 200 });
+//   } catch (error) {
+//     console.error('Error updating vehicle:', error);
+//     return NextResponse.json({ success: false, error: (error as Error).message }, { status: 500 });
+//   }
+// }
+
+
 import { NextResponse } from 'next/server';
 import { connectToDB } from '@/utils/db';
 import Vehicle from '@/models/Vehicle';
@@ -285,13 +395,6 @@ import { authMiddleware } from '@/middlewares/authMiddleware';
 import { roleMiddleware } from '@/middlewares/roleMiddleware';
 import cloudinary from '@/config/cloudinary';
 import { Readable } from 'stream';
-
-// Disable body parsing for file uploads
-export const routeSegmentConfig = {
-  api: {
-    bodyParser: false,
-  },
-};
 
 // Function to upload file to Cloudinary
 async function uploadToCloudinary(stream: Readable): Promise<string> {
