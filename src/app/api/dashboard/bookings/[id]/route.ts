@@ -49,13 +49,18 @@ import { NextResponse } from 'next/server';
 import { connectToDB } from '@/utils/db';
 import Booking from '@/models/Booking';
 
-export async function PUT(
-  request: Request,
-  context: { params: { id: string } }
-) {
+export async function PUT(request: Request) {
   try {
     await connectToDB();
-    const { id } = context.params;  // Extract params here
+    
+    // Extract id from the URL using request.url
+    const url = new URL(request.url);
+    const id = url.pathname.split('/').pop(); // Assuming dynamic route [id]
+
+    if (!id) {
+      return NextResponse.json({ message: 'Booking ID is required.' }, { status: 400 });
+    }
+
     const { status } = await request.json();
 
     // Validate status
@@ -79,13 +84,17 @@ export async function PUT(
   }
 }
 
-export async function DELETE(
-  request: Request,
-  context: { params: { id: string } }
-) {
+export async function DELETE(request: Request) {
   try {
     await connectToDB();
-    const { id } = context.params;  // Extract params here
+
+    // Extract id from the URL using request.url
+    const url = new URL(request.url);
+    const id = url.pathname.split('/').pop(); // Assuming dynamic route [id]
+
+    if (!id) {
+      return NextResponse.json({ message: 'Booking ID is required.' }, { status: 400 });
+    }
 
     const booking = await Booking.findByIdAndDelete(id);
     if (!booking) {
