@@ -62,7 +62,8 @@ export async function PUT(request: Request) {
     const customerId = user.id;
 
     // Get booking ID from query parameters and parse the request body
-    const { id } = new URL(request.url).searchParams;
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get('id');
     const { status } = await request.json();
 
     // Validate booking ID and status
